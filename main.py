@@ -3,21 +3,29 @@ import pyperclip
 import yt_dlp
 from tkinter import * 
 from tkinter.filedialog import asksaveasfilename
+import os
+import json
 
 # Get current clipboard contents and shove it into url variable
-url = pyperclip.paste()
+URL = pyperclip.paste()
+
+# Get the preferred file extension
+with yt_dlp.YoutubeDL() as ydl:
+    info = ydl.extract_info(URL, download=False)
+
+    file_extension = '.' + info['ext']
 
 # Lets make an invisible tkinter window so we can choose where to save the file, then destroy it
 root = Tk()
 root.withdraw()
-filename = (asksaveasfilename())
+filename = (asksaveasfilename(filetypes=[( file_extension + " File", file_extension)],defaultextension=file_extension))
 root.destroy()
 
 # Our options, use the name we decided on in the dialog
 ydl_opts = {
-    'outtmpl': filename
+    'outtmpl': filename,
 }
 
-# Download time
+# Download
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-    ydl.download([url])
+    ydl.download([URL])
