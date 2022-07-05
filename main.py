@@ -3,6 +3,7 @@ import pyperclip
 import yt_dlp
 from tkinter import Tk 
 from tkinter.filedialog import asksaveasfilename
+import os, sys, subprocess
 
 # Get current clipboard contents and shove it into url variable
 URL = pyperclip.paste()
@@ -23,6 +24,15 @@ ydl_opts = {
     'outtmpl': filename,
 }
 
+def open_file(filename):
+    if sys.platform == "win32":
+        os.startfile(filename)
+    else:
+        opener = "open" if sys.platform == "darwin" else "xdg-open"
+        subprocess.call([opener, filename])
+
 # Download
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
     ydl.download([URL])
+
+open_file(filename)
