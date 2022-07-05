@@ -1,10 +1,8 @@
 # Imports for clipboard, youtube dl, tkinter for saveas dialog
 import pyperclip
 import yt_dlp
-from tkinter import * 
+from tkinter import Tk 
 from tkinter.filedialog import asksaveasfilename
-import os
-import json
 
 # Get current clipboard contents and shove it into url variable
 URL = pyperclip.paste()
@@ -12,7 +10,6 @@ URL = pyperclip.paste()
 # Get the preferred file extension
 with yt_dlp.YoutubeDL() as ydl:
     info = ydl.extract_info(URL, download=False)
-
     file_extension = '.' + info['ext']
 
 # Lets make an invisible tkinter window so we can choose where to save the file, then destroy it
