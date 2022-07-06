@@ -1,9 +1,6 @@
 # Imports for clipboard, youtube dl, tkinter for saveas dialog
-import pyperclip
-import yt_dlp
-from tkinter import Tk 
-from tkinter.filedialog import asksaveasfilename
-import os, sys, subprocess
+from tkinter import Tk;from tkinter.filedialog import asksaveasfilename
+import os, sys, subprocess, pyperclip, yt_dlp
 
 # Get current clipboard contents and shove it into url variable
 URL = pyperclip.paste()
@@ -18,6 +15,10 @@ root = Tk()
 root.withdraw()
 filename = (asksaveasfilename(filetypes=[( file_extension + " File", file_extension)],defaultextension=file_extension))
 root.destroy()
+
+# If the user didn't enter a filename, close out
+if not filename:
+    exit()
 
 # Our options, use the name we decided on in the dialog
 ydl_opts = {
